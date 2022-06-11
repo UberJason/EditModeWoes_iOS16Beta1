@@ -8,12 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var showing = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        Button("Present") {
+            showing.toggle()
+        }
+        .sheet(isPresented: $showing) {
+            SheetView()
+        }
+    }
+}
+
+struct SheetView: View {
+    @Environment(\.editMode) var editMode
+    
+    @State var items = [1, 2, 3, 4, 5]
+    
+    var body: some View {
+        Form {
+            Section {
+                ForEach(items, id: \.self) { i in
+                    Text("\(i)")
+                }
+                .onMove { _, _ in
+                    
+                }
+            } header: {
+                EditButton()
+            }
         }
     }
 }
